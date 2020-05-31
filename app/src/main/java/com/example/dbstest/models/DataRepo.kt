@@ -1,8 +1,12 @@
 package com.example.dbstest.models
 
+import com.google.gson.annotations.SerializedName
+
 
 data class DataRepo(
-    var Id: String,
-    var Label: String,
-    var Priority: String
+    @SerializedName("id") var Id: Int,
+    @SerializedName("title") var tile: String,
+    @SerializedName("last_update") var last_update: Int,
+    @SerializedName("short_description") var short_description: String,
+    @SerializedName("avatar") var avatar: String
 )
