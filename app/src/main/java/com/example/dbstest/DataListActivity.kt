@@ -1,5 +1,7 @@
 package com.example.dbstest
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dbstest.adapters.DataListAdapter
 import com.example.dbstest.models.DataRepo
+
 import com.example.dbstest.network.ServiceGenerator
 import com.example.dbstest.viewmodels.DataListViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -32,7 +35,7 @@ class DataListActivity : BaseActivity() {
 
         ServiceGenerator(this)
 
-        adapter = DataListAdapter(this)
+        adapter = DataListAdapter(this,{ item -> doClick(item) })
         rv_repo.adapter = adapter
         rv_repo.layoutManager = LinearLayoutManager(this)
         rv_repo.addItemDecoration(
@@ -49,6 +52,7 @@ class DataListActivity : BaseActivity() {
     private fun initialiseViewModel() {
         dataListViewModel =
             ViewModelProviders.of(this).get(DataListViewModel(application)::class.java)
+        dataListViewModel.getStatus().observe(this, Observer { handleStatus(it) })
     }
 
     private fun  fetchDataRepos() {
@@ -71,6 +75,18 @@ class DataListActivity : BaseActivity() {
         })
     }
 
+    private fun handleStatus(status: String?) {
+        showProgressBar(false)
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Error Message")
+        builder.setMessage(status)
+
+        builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+            dialog.dismiss()
+        }
+        builder.show()
+    }
+
 
     override fun onResume() {
         super.onResume()
@@ -82,10 +98,16 @@ class DataListActivity : BaseActivity() {
         super.onPause()
     }
 
-    private fun showNetworkMessage(isConnected: Boolean) {
-        if (!isConnected) {
-            Toast.makeText(this, "Internet is not available", Toast.LENGTH_SHORT).show()
+
+    fun doClick(data:Bundle){
+        val intent = Intent(this, TitleDetailActivity::class.java).apply {
+            putExtra("data", data)
         }
+        startActivity(intent)
+    }
+
+    fun showProgressBar(visibility: Boolean) {
+        progress_bar.visibility = if (visibility) View.VISIBLE else View.INVISIBLE
     }
 
 }

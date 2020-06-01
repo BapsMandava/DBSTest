@@ -10,3 +10,9 @@ data class DataRepo(
     @SerializedName("short_description") var short_description: String,
     @SerializedName("avatar") var avatar: String
 )
+
+data class DataDetailRepo(
+    @SerializedName("id") var Id: Int,
+    @SerializedName("text") var text: String
+)
+

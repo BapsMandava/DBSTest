@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 
@@ -27,9 +28,7 @@ abstract class BaseActivity : AppCompatActivity() {
         super.setContentView(layoutResID)
     }
 
-    fun showProgressBar(visibility: Boolean) {
-        mProgressBar.visibility = if (visibility) View.VISIBLE else View.INVISIBLE
-    }
+
 
     open fun hasNetwork(): Boolean {
         return this.isNetworkConnected()
@@ -42,4 +41,15 @@ abstract class BaseActivity : AppCompatActivity() {
         return activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting
     }
+
+    fun showNetworkMessage(isConnected: Boolean) {
+        if (!isConnected) {
+            Toast.makeText(this, "Internet is not available", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+
+
+
 }

@@ -2,6 +2,7 @@ package com.example.dbstest.repositories
 
 import android.content.Context
 import android.widget.Toast
+import com.example.dbstest.models.DataDetailRepo
 import com.example.dbstest.models.DataRepo
 import com.example.dbstest.network.Api
 import com.example.dbstest.network.ApiClient
@@ -27,8 +28,24 @@ class DataRepository(private val context: Context) {
         return Observable.concatArrayEager(observableFromApi)
     }
 
+
+
+    fun getTitleDetails(id: Int): Observable<DataDetailRepo> {
+        val hasConnection = ConnectivityUtil.isNetworkAvailable(context)
+        var observableFromApi:  Observable<DataDetailRepo>? = null
+        if (hasConnection) {
+            observableFromApi = getTitleDetailsFromApi(id)
+        }
+
+        return Observable.concatArrayEager(observableFromApi)
+    }
+
     private fun getDataReposFromApi(): Observable<List<DataRepo>> {
         return dataRepoApiClient.getDataRepos()
+    }
+
+    private fun getTitleDetailsFromApi(id:Int): Observable<DataDetailRepo> {
+        return dataRepoApiClient.getTitleDetailsRepos(id)
     }
 
 }

@@ -1,19 +1,21 @@
 package com.example.dbstest.adapters
 
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.dbstest.R
 import com.example.dbstest.models.DataRepo
 import com.example.dbstest.utils.GeneralUtil
 
-class DataListAdapter internal constructor(context: Context,  val adapterOnClick : (Int) -> Unit) : RecyclerView.Adapter<DataListAdapter.RepoViewHolder>() {
+class DataListAdapter internal constructor(context: Context,  val adapterOnClick : (Bundle) -> Unit) : RecyclerView.Adapter<DataListAdapter.RepoViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var repos = emptyList<DataRepo>()
@@ -24,9 +26,13 @@ class DataListAdapter internal constructor(context: Context,  val adapterOnClick
         val date: TextView = itemView.findViewById(R.id.txtDate)
         val summary: TextView = itemView.findViewById(R.id.txtSummary)
         val image: ImageView = itemView.findViewById(R.id.ivAvatar)
-        val container: LinearLayout = itemView.findViewById(R.id.cardView)
-        fun setItem(item: Int) {
-            container.setOnClickListener { adapterOnClick(item) }
+        val container: CardView = itemView.findViewById(R.id.cardView)
+        fun setItem(item: Int,avatar:String,title:String) {
+            var data = Bundle()
+            data.putString("avatar",avatar)
+            data.putInt("id",item)
+            data.putInt("title",item)
+            container.setOnClickListener { adapterOnClick(data) }
         }
 
 
@@ -45,7 +51,7 @@ class DataListAdapter internal constructor(context: Context,  val adapterOnClick
          Glide.with(context).load(current.avatar)
             .placeholder(R.drawable.ic_broken_image).into(holder.image)
         holder.summary.text = current.short_description
-        holder.setItem(current.Id)
+        holder.setItem(current.Id,current.avatar,current.tile)
 
     }
 
