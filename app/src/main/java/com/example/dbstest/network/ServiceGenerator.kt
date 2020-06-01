@@ -29,7 +29,11 @@ class ServiceGenerator(private val context: Context) {
         instance = this
     }
 
-
+    private val okHttpClient = OkHttpClient.Builder()
+        .cache(cache())
+        .addInterceptor(httpLoggingInterceptor()) // used if network off OR on
+        .addNetworkInterceptor(networkInterceptor()) // only used when network is on
+        .addInterceptor(offlineInterceptor()).build()
 
     private fun httpLoggingInterceptor(): HttpLoggingInterceptor? {
         val httpLoggingInterceptor =
@@ -97,7 +101,7 @@ class ServiceGenerator(private val context: Context) {
         .baseUrl(Constants.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-        .client(getUnsafeOkHttpClient())
+        .client(okHttpClient)
 
 
     private val retrofit = retroFitBuilder.build()
@@ -108,46 +112,4 @@ class ServiceGenerator(private val context: Context) {
         return dataRepoApi
     }
 
-    private fun getUnsafeOkHttpClient(): OkHttpClient {
-        try {
-            // Create a trust manager that does not validate certificate chains
-            val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
-                @Throws(CertificateException::class)
-                override fun checkClientTrusted(
-                    chain: Array<java.security.cert.X509Certificate>,
-                    authType: String
-                ) {
-                }
-
-                @Throws(CertificateException::class)
-                override fun checkServerTrusted(
-                    chain: Array<java.security.cert.X509Certificate>,
-                    authType: String
-                ) {
-                }
-
-                override fun getAcceptedIssuers(): Array<java.security.cert.X509Certificate> {
-                    return arrayOf()
-                }
-            })
-
-            // Install the all-trusting trust manager
-            val sslContext = SSLContext.getInstance("SSL")
-            sslContext.init(null, trustAllCerts, java.security.SecureRandom())
-            // Create an ssl socket factory with our all-trusting manager
-            val sslSocketFactory = sslContext.socketFactory
-
-            val builder = OkHttpClient.Builder()
-
-            builder.sslSocketFactory(sslSocketFactory)
-            builder.hostnameVerifier { hostname, session -> true }
-
-            return builder.connectTimeout(1, TimeUnit.MINUTES)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(15, TimeUnit.SECONDS).build()
-        } catch (e: Exception) {
-            throw RuntimeException(e)
-        }
-
-    }
 }

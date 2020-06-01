@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:padding="@dimen/dp_20"
     android:background="@color/backgroundColor"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,6 +20,7 @@
 
         <!-- Main Content View -->
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_margin="@dimen/dp_20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -28,7 +29,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.1" />
+                app:layout_constraintGuide_begin="20dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="20dp" />
 
 
             <TextView
@@ -50,14 +58,7 @@
                 app:layout_constraintLeft_toLeftOf="@id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
 
-            <TextView
-                android:id="@+id/txtSummary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/dp_20"
-                android:text="ljfsl;dfjasd;lfjasl;dfjdlfjkas;ufhrihskjhsfkgjhskghasdfhadskjhfsihfasjgnaksfgbaflskg;askdnf;askdfnasdk;fnasd;khnvsakdjnfaskhfblkhfkfjbdslkjflasdkf"
-                app:layout_constraintLeft_toLeftOf="@id/guideline"
-                app:layout_constraintTop_toBottomOf="@+id/txtDate" />
+
 
 
             <ImageView
@@ -69,6 +70,16 @@
                 app:layout_constraintLeft_toRightOf="@+id/txtTitle"
                 app:layout_constraintBottom_toTopOf="@+id/txtSummary"
                 app:layout_constraintRight_toRightOf="parent" />
+
+            <TextView
+                android:id="@+id/txtSummary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/dp_20"
+                android:text="ljfsl;dfjasd;lfjasl;dfjdlfjkas;ufhrihskjhsfkgjhskghasdfhadskjhfsihfasjgnaksfgbaflskg;askdnf;askdfnasdk;fnasd;khnvsakdjnfaskhfblkhfkfjbdslkjflasdkf"
+                app:layout_constraintRight_toLeftOf="@+id/guideline2"
+                app:layout_constraintLeft_toRightOf="@id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/txtDate" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

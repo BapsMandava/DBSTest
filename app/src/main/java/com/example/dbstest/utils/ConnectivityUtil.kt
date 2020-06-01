@@ -5,6 +5,8 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.util.Log
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 object ConnectivityUtil {
@@ -43,5 +45,7 @@ object ConnectivityUtil {
         Log.i("update_status", "Network is available : FALSE ")
         return false
     }
+
+
 
 }
