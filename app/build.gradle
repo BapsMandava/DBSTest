@@ -38,7 +38,6 @@ dependencies {
     def okhttp3_version = "3.14.4"
     def glide_version = "4.10.0"
     def lifecycle_version = "2.1.0"
-    def room_version = "2.2.3"
     def rxJava_version = "2.1.0"
 
 
@@ -75,8 +74,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    implementation 'com.facebook.shimmer:shimmer:0.5.0'
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
 
     implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
     implementation "io.reactivex.rxjava2:rxandroid:$rxJava_version"
