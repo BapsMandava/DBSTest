@@ -42,15 +42,20 @@ class TitleDetailActivity : BaseActivity() {
     }
 
     fun getDataDetails(id:Int,avatar:String?){
-        showProgressBar(true)
-        dataListViewModel.getSelectedData(id).observe(this, Observer { selectionMsg ->
-            Log.i(DataListActivity.TAG, "Viewmodel response: $selectionMsg")
-            showProgressBar(false)
-            selectionMsg?.let {
-                Glide.with(this).load(avatar).placeholder(R.drawable.ic_broken_image).into(ivAvatar)
-                binding.titleDetails = it
-            }
-        })
+        if(hasNetwork()) {
+            showProgressBar(true)
+            dataListViewModel.getSelectedData(id).observe(this, Observer { selectionMsg ->
+                Log.i(DataListActivity.TAG, "Viewmodel response: $selectionMsg")
+                showProgressBar(false)
+                selectionMsg?.let {
+                    Glide.with(this).load(avatar).placeholder(R.drawable.ic_broken_image)
+                        .into(ivAvatar)
+                    binding.titleDetails = it
+                }
+            })
+        } else {
+            showNetworkMessage(hasNetwork())
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

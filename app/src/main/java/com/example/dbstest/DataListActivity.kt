@@ -56,23 +56,27 @@ class DataListActivity : BaseActivity() {
     }
 
     private fun  fetchDataRepos() {
-        showProgressBar(true)
-        dataListViewModel.getRepos().observe(this, Observer { repoList ->
-            Log.i(TAG, "Viewmodel response: $repoList")
+        if(hasNetwork()) {
+            showProgressBar(true)
+            dataListViewModel.getRepos().observe(this, Observer { repoList ->
+                Log.i(TAG, "Viewmodel response: $repoList")
 
-            repoList?.let {
+                repoList?.let {
 
-                showProgressBar(false)
-                if (it.isNotEmpty()) {
-                    empty_list.visibility = View.GONE
-                    dataRepoList = it
-                    adapter.clear()
-                    adapter.setRepos(dataRepoList)
-                } else {
-                    empty_list.visibility = View.VISIBLE
+                    showProgressBar(false)
+                    if (it.isNotEmpty()) {
+                        empty_list.visibility = View.GONE
+                        dataRepoList = it
+                        adapter.clear()
+                        adapter.setRepos(dataRepoList)
+                    } else {
+                        empty_list.visibility = View.VISIBLE
+                    }
                 }
-            }
-        })
+            })
+        }else{
+            showNetworkMessage(hasNetwork())
+        }
     }
 
     private fun handleStatus(status: String?) {
