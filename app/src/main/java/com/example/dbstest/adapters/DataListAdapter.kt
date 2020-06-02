@@ -31,7 +31,7 @@ class DataListAdapter internal constructor(context: Context,  val adapterOnClick
             var data = Bundle()
             data.putString("avatar",avatar)
             data.putInt("id",item)
-            data.putInt("title",item)
+            data.putString("title",title)
             container.setOnClickListener { adapterOnClick(data) }
         }
 
@@ -45,13 +45,13 @@ class DataListAdapter internal constructor(context: Context,  val adapterOnClick
 
     override fun onBindViewHolder(holder: RepoViewHolder, position: Int) {
         val current = repos[position]
-        holder.title.text = current.tile
+        holder.title.text = current.title
         holder.date.text = GeneralUtil.convertLongToTime(current.last_update)
 
          Glide.with(context).load(current.avatar)
             .placeholder(R.drawable.ic_broken_image).into(holder.image)
         holder.summary.text = current.short_description
-        holder.setItem(current.Id,current.avatar,current.tile)
+        holder.setItem(current.Id,current.avatar,current.title)
 
     }
 

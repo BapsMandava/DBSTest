@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light">
-        <activity android:name=".TitleDetailActivity"></activity>
+        <activity android:name=".EditActivity"></activity>
+        <activity android:name=".TitleDetailActivity" />
         <activity android:name=".DataListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
